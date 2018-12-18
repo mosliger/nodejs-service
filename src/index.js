@@ -1,6 +1,7 @@
 import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
+import 'babel-polyfill';
 
 import api from './api';
 import { authentication } from './middleware';
