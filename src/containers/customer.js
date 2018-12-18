@@ -1,15 +1,20 @@
 import connectDB from '../db';
-import { get } from '../models/customer';
+import Customer from '../models/customer';
+import User from '../models/user';
 
 const getCustomer = ({ params }) => {
   return new Promise(async (resolve, reject) => {
     const { id } = params;
-    const connection = await connectDB();
-    connection.query(get(id), (err, result) => {
-      if (err) reject(err);
-      resolve(result);
-      connection.end();
-    });
+    try {
+      const connection = await connectDB();
+      connection.query(Customer.get(id), (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+        connection.end();
+      });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
 
@@ -20,11 +25,12 @@ const createCustomer = ({ body }) => {
       if (err) {
         reject(err);
       }
-      const sqlUser = `INSERT INTO user (username, password) VALUES ('${
-        body.username
-      }', '${body.password}')`;
+      const userCreate = {
+        username: body.username,
+        password: body.password
+      };
 
-      connection.query(sqlUser, (userErr, user) => {
+      connection.query(User.create(userCreate), (userErr, user) => {
         if (userErr) {
           connection.rollback(() => {
             reject(userErr);
@@ -32,11 +38,14 @@ const createCustomer = ({ body }) => {
         }
 
         if (user.insertId) {
-          const sqlCustomer = `INSERT INTO customer ( id, name, lastname, phone ) VALUES (${
-            user.insertId
-          }, '${body.name}', '${body.lastname}', '${body.phone}')`;
+          const createCustomer = {
+            id: user.insertId,
+            name: user.name,
+            lastname: user.lastname,
+            phone: user.phone
+          };
 
-          connection.query(sqlCustomer, customerErr => {
+          connection.query(Customer.create(createCustomer), customerErr => {
             if (customerErr) {
               connection.rollback(() => {
                 reject(customerErr);

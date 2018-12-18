@@ -12,7 +12,7 @@ export default () => {
     con.connect(err => {
       if (err) reject(err);
       console.log('Connected!'); // eslint-disable-line
-      resolve(con)
+      resolve(con);
     });
   });
 };

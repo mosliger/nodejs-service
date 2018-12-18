@@ -12,7 +12,7 @@ export default () => {
 
   api.get('/customer/:id?', response(getCustomer));
   api.post('/customer', response(createCustomer));
-  api.put('/customer/:id/:name/:lastname', response(updateCustomer));
+  api.put('/customer/:id', response(updateCustomer));
 
   return api;
 };
