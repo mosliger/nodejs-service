@@ -1,23 +1,18 @@
-import { Router } from "express";
+import { Router } from 'express';
+import response from '../middleware/response';
 
-export default ({ db }) => {
-  let api = Router();
+import {
+  getCustomer,
+  createCustomer,
+  updateCustomer
+} from '../containers/customer';
 
-  // perhaps expose some API metadata at the root
-  api.get("/customer", (req, res) => {
-    db.query("SELECT * FROM customer", (err, result) => {
-      if (err) throw err;
-      res.json({ body: result, status: "SUCCRESS" });
-    });
-  });
+export default () => {
+  const api = Router();
 
-  api.post("/customer", ({ body }, res) => {
-    const sql = `INSERT INTO customer (name, lastname, phone) VALUES ('${body.name}', '${body.lastname}', '${body.phone}')`;
-    db.query(sql, err => {
-      if (err) throw err;
-      res.json({ body: {}, status: "SUCCRESS" });
-    });
-  });
+  api.get('/customer/:id?', response(getCustomer));
+  api.post('/customer', response(createCustomer));
+  api.put('/customer/:id/:name/:lastname', response(updateCustomer));
 
   return api;
 };

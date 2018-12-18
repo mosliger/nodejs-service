@@ -1,18 +1,18 @@
-import mysql from "mysql";
+import mysql from 'mysql';
 
-export default callback => {
+export default () => {
   const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root",
-		database: "demo-node",
-		socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'demo-node',
+    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
   });
-  con.connect(err => {
-    if (err) throw err;
-		console.log("Connected!");
-		callback(con);
+  return new Promise((resolve, reject) => {
+    con.connect(err => {
+      if (err) reject(err);
+      console.log('Connected!'); // eslint-disable-line
+      resolve(con)
+    });
   });
-
-  
 };
