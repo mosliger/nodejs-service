@@ -3,8 +3,7 @@ import response from '../middleware/response';
 
 import {
   getCustomer,
-  createCustomer,
-  updateCustomer
+  createCustomer
 } from '../containers/customer';
 
 export default () => {
@@ -12,7 +11,6 @@ export default () => {
 
   api.get('/customer/:id?', response(getCustomer));
   api.post('/customer', response(createCustomer));
-  api.put('/customer/:id', response(updateCustomer));
 
   return api;
 };

@@ -44,16 +44,4 @@ const createCustomer = ({ body }) => {
   });
 };
 
-const updateCustomer = ({ body, params }) => {
-  return new Promise(async (resolve, reject) => {
-    const connection = await connectDB();
-    const sql = `UPDATE customer SET ? WHERE id = ${params.id}`;
-    connection.query(sql, body, (err, result) => {
-      if (err) reject(err);
-      connection.end();
-      resolve(result);
-    });
-  });
-};
-
-export { getCustomer, createCustomer, updateCustomer };
+export { getCustomer, createCustomer };
