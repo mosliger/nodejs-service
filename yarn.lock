@@ -2829,6 +2829,10 @@ optionator@^0.8.2:
     type-check "~0.3.2"
     wordwrap "~1.0.0"
 
+oracledb@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/oracledb/-/oracledb-3.0.1.tgz#a9a248cee1ef09eff4f65bcc1ed135912a80c4a2"
+
 os-homedir@^1.0.0:
   version "1.0.2"
   resolved "http://registry.npmjs.org/os-homedir/-/os-homedir-1.0.2.tgz#ffbc4988336e0e833de0c168c7ef152121aa7fb3"

@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 
-import connectDB from '../db';
+import connectDB from '../mysql-db';
 import Customer from '../models/customer';
 import User from '../models/user';
 
