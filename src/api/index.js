@@ -7,7 +7,7 @@ import {
 } from '../containers/customer';
 
 import {
-  getData
+  getCompany
 } from '../containers/demo';
 
 export default () => {
@@ -15,7 +15,7 @@ export default () => {
 
   api.get('/customer/:id?', response(getCustomer));
   api.post('/customer', response(createCustomer));
-  api.post('/oracle', response(getData));
+  api.get('/company', response(getCompany));
 
   return api;
 };

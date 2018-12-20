@@ -1,17 +1,21 @@
 import connectDB from '../oracle-db';
 
-const getData = () => {
+const getCompany = () => {
   return new Promise(async (resolve, reject) => {
+    const connection = await connectDB();
     try {
-      const connection = await connectDB();
-      console.log('connection >>', connection);
-      resolve({});
+      const result = await connection.execute(
+        'SELECT * FROM company',
+        {},
+        { outFormat: 4002 }
+      );
+      resolve(result.rows || []);
     } catch (error) {
       reject(error);
+    } finally {
+      await connection.close();
     }
   });
 };
 
-export {
-  getData
-};
+export { getCompany };
