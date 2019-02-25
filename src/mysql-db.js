@@ -32,7 +32,7 @@ export default () => {
     user: 'root',
     password: 'root',
     database: 'demo-node',
-    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
+    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock' // for-mac
   });
 
   return new Promise((resolve, reject) => {

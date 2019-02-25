@@ -1,8 +1,8 @@
-export default (result) => async (req, res) => {
-  try {
-    const data = await result(req);
-    res.json({ responseData: data, status: 'SUCCRESS' });
-  } catch (err) {
-    res.json({ error: err, status: 'UNSUCCRESS' });
-  }
+
+import { toCamelCase } from '../utils';
+
+export default (fn) => async (req, res, next) => {
+  Promise.resolve(fn(req, (data) => {
+    res.json({ responseData: toCamelCase(data), status: 'SUCCESS' });
+  }, next)).catch(next);
 };
