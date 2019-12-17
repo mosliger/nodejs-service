@@ -8,7 +8,6 @@ import { getCustomer, createCustomer } from '../controllers/customer';
 
 const router = Router();
 
-/** service get company */
 router.get('/customer/:id?', response(getCustomer));
 
 const valdateCreate = {

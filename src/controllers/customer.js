@@ -1,47 +1,21 @@
-import get from 'lodash/get';
+import { MongoClient } from 'mongodb';
 
-import connectDB from '../mysql-db';
-import Customer from '../models/customer';
-import User from '../models/user';
-
-const getCustomer = ({ params }) => {
-  return new Promise(async (resolve, reject) => {
-    const { id } = params;
+const getCustomer = (req, res) => {
+  MongoClient.connect('mongodb://localhost:27017', (err, client) => {
     try {
-      const connection = await connectDB();
-      const { result } = await connection.query(Customer.get(id));
-      connection.disconnect();
-      resolve(result);
+      if (err) throw err;
+      const db = client.db('template');
+      db.collection('users').findOne({}, (findErr, result) => {
+        if (findErr) throw findErr;
+        console.log(result);
+        res(result);
+      });
     } catch (error) {
-      reject(error);
+      throw new Error(error);
+    } finally {
+      client.close();
     }
   });
 };
 
-const createCustomer = ({ body }) => {
-  return new Promise(async (resolve, reject) => {
-    const connection = await connectDB();
-    try {
-      await connection.beginTransaction();
-      const createUser = await connection.query(
-        User.create({ username: body.username, password: body.password })
-      );
-      const createCustomer = {
-        id: get(createUser, 'result.insertId'),
-        name: body.name,
-        lastname: body.lastname,
-        phone: body.phone
-      };
-      await connection.query(Customer.create(createCustomer));
-      const result = await connection.commit();
-      connection.disconnect();
-      resolve(result);
-    } catch (error) {
-      connection.rollback();
-      connection.disconnect();
-      reject(error);
-    }
-  });
-};
-
-export { getCustomer, createCustomer };
+export { getCustomer };
