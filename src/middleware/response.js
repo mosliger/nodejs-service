@@ -1,5 +1,7 @@
 export default (fn) => async (req, res, next) => {
-  Promise.resolve(fn(req, (data) => {
-    res.json({ responseData: data, status: 'SUCCESS' });
-  }, next)).catch(next);
+  try {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  } catch (err) {
+    next(err);
+  }
 };

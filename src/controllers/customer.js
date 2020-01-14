@@ -8,7 +8,7 @@ const getCustomer = (req, res) => {
       db.collection('users').findOne({}, (findErr, result) => {
         if (findErr) throw findErr;
         console.log(result);
-        res(result);
+        res.json(result);
       });
     } catch (error) {
       throw new Error(error);

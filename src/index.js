@@ -10,7 +10,7 @@ import router from './router';
 import { authentication } from './middleware';
 
 const app = express();
-const base = '/api/v1';
+const base = '/api';
 
 app.server = http.createServer(app);
 app.use(bodyParser.json());
@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.server.listen(3333, () => {
+app.server.listen(8888, () => {
   console.log(`Started on port ${app.server.address().port}`);
 });
 
