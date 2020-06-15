@@ -9,12 +9,22 @@
     "application/json"
   ],
   "paths": {
-    "/customer/{id}": {
+    "/users": {
       "get": {
         "tags": [
-          "/customer"
+          "Users"
         ],
-        "description": "get all customer",
+        "description": "get all user",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "get user by id",
         "parameters": [
           {
             "name": "id",
@@ -23,15 +33,6 @@
             "required": true
           }
         ],
-        "responses": {}
-      }
-    },
-    "/customers": {
-      "post": {
-        "tags": [
-          "/customer"
-        ],
-        "description": "create customer",
         "responses": {}
       }
     }
