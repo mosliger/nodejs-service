@@ -1,21 +1,24 @@
-import { MongoClient } from 'mongodb';
+const mongodb = require('mongodb');
 
-const getCustomer = (req, res) => {
+const MongoClient = mongodb.MongoClient;
+
+const getCustomer = (req, res, next) => {
   MongoClient.connect('mongodb://localhost:27017', (err, client) => {
     try {
       if (err) throw err;
       const db = client.db('template');
       db.collection('users').findOne({}, (findErr, result) => {
         if (findErr) throw findErr;
-        console.log(result);
         res.json(result);
       });
     } catch (error) {
-      throw new Error(error);
+      next(error);
     } finally {
       client.close();
     }
   });
 };
 
-export { getCustomer };
+module.exports = {
+  getCustomer,
+};

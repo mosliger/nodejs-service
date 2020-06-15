@@ -1,37 +1,34 @@
-import http from 'http';
-import express from 'express';
-import bodyParser from 'body-parser';
-import expressValidation from 'express-validation';
-import flattenDeep from 'lodash/flattenDeep';
-
-import 'babel-polyfill';
-
-import router from './router';
-import { authentication } from './middleware';
-
+const express = require('express');
+const http = require('http');
+const bodyParser = require('body-parser');
 const app = express();
-const base = '/api';
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json')
+const port = 3000;
+
+const router = require('./routes');
 
 app.server = http.createServer(app);
 app.use(bodyParser.json());
 
-app.use(base, authentication, router());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {}));
+
+app.use(router);
+
 app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {
     res.json({
-      errorMessage: flattenDeep(err.errors.map(error => error.messages)),
-      stack: ''
+      errorMessage: flattenDeep(err.errors.map((error) => error.messages)),
+      stack: '',
     });
   } else {
     res.json({
       errorMessage: [err.message],
-      stack: err.stack
+      stack: err.stack,
     });
   }
 });
 
-app.server.listen(8888, () => {
+app.server.listen(port, () => {
   console.log(`Started on port ${app.server.address().port}`);
 });
-
-export default app;
