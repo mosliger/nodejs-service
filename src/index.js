@@ -3,7 +3,11 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const app = express();
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json')
+const expressValidation = require('express-validation');
+const flattenDeep = require('lodash/flattenDeep');
+
+const swaggerDocument = require('./swagger.json');
+
 const port = 3000;
 
 const router = require('./routes');
